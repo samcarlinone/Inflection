@@ -6,9 +6,9 @@ class Player:
         
         self.sprite.setPos(self.pos)
         
-    def move(self):
-        self.pos[0] += self.controller.xv
-        self.pos[1] += self.controller.yv
+    def step(self):
+        self.pos.x += self.controller.xv
+        self.pos.y += self.controller.yv
         
         self.sprite.setPos(self.pos)
         

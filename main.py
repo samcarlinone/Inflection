@@ -1,9 +1,11 @@
 import pygame
 import random
 
-from sprite     import Sprite
-from player     import Player
-from controller import Controller
+from sprite             import Sprite
+from player             import Player
+from controller         import Controller
+from particle_engine    import Particle_Engine
+from vec2               import Vec2
 
 
 Color  = pygame.Color
@@ -12,21 +14,30 @@ Color  = pygame.Color
 window    = pygame.display.set_mode((640, 400))
 surface   = pygame.Surface((640, 400))
 clock     = pygame.time.Clock()
-tick_rate = 100
+tick_rate = 1000/60
 last_tick = 0
 running   = 1
 
 # Game Code
-player = Player([32, 32], Sprite("Inflection.png"), Controller())
+player = Player(Vec2(32, 32), Sprite("Inflection.png"), Controller())
+p_engine = Particle_Engine(Sprite("Particle.png"))
+p_engine.createAttractor(Vec2(40, 40), 20)
+
+for x in range(-5, 5):
+    for y in range(-5, 5):
+        p_engine.spawnParticles(Vec2(40+x, 40+y), 1)
+
 
 def game_tick():
-    player.move()
+    player.step()
+    p_engine.step()
     # Nothing Yet
 
 def game_draw():
     surface.fill((255, 255, 255))
     
     player.render(surface)
+    p_engine.render(surface)
     
 
 while running:
