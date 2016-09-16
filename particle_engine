@@ -1,0 +1,11 @@
+class Particle_Engine:
+    def __init__(self, sprite):
+        self.sprite = sprite
+     
+    def setPos(self, pos):
+        self.img_rect.left = pos[0]
+        self.img_rect.top  = pos[1]
+     
+    def draw(self, surface):
+        surface.blit(self.img, self.img_rect)
+        
