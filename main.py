@@ -19,9 +19,10 @@ last_tick = 0
 running   = 1
 
 # Game Code
-player = Player(Vec2(32, 32), Sprite("Inflection.png"), Controller())
+controller = Controller()
+player = Player(Vec2(32, 32), Sprite("Inflection.png"), controller)
 p_engine = Particle_Engine(Sprite("Particle.png"))
-p_engine.createAttractor(Vec2(40, 40), 20)
+a = p_engine.createAttractor(Vec2(40, 40), 30)
 
 for x in range(-5, 5):
     for y in range(-5, 5):
@@ -31,6 +32,8 @@ for x in range(-5, 5):
 def game_tick():
     player.step()
     p_engine.step()
+    a.p.x = player.pos.x + 32
+    a.p.y = player.pos.y + 32
     # Nothing Yet
 
 def game_draw():
@@ -42,8 +45,22 @@ def game_draw():
 
 while running:
     event = pygame.event.poll()
-    if event.type == pygame.QUIT:
-        running = 0
+    
+    while event.type != pygame.NOEVENT:
+        print(event)
+        
+        if event.type == pygame.QUIT:
+            running = 0
+            break
+        
+        if event.type == pygame.KEYDOWN:
+            controller.keyDown(event)
+            
+        if event.type == pygame.KEYUP:
+            controller.keyUp(event)
+            
+        event = pygame.event.poll()
+        
         
 #     if pygame.mouse.get_pressed()[0]:
 #         pos = pygame.mouse.get_pos()

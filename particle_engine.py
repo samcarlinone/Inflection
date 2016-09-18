@@ -39,8 +39,8 @@ class Particle_Engine:
                 else:
                     dist = -force.power / dist**2
                     
-                if(dist > 0.000001):
-                    dist = 0.000001
+                if(dist < -1):
+                    dist = -1
                 
                 part.t_force.add_i(direction.mul_s(dist))
                 
