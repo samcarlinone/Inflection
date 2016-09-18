@@ -6,6 +6,7 @@ from player             import Player
 from controller         import Controller
 from particle_engine    import Particle_Engine
 from vec2               import Vec2
+from base_enemy         import BaseEnemy
 
 
 Color  = pygame.Color
@@ -21,10 +22,14 @@ running   = 1
 # Game Code
 controller = Controller()
 player = Player(Vec2(32, 32), Sprite("Inflection.png"), controller)
+
 p_engine = Particle_Engine(Sprite("Particle.png"))
+
 a = p_engine.createAttractor(Vec2(40, 40), 100)
 a_click = False
 a_time  = 120
+
+enemy = BaseEnemy(Vec2(300, 300), Sprite("Placeholder_Circle.png"))
 
 
 for x in range(-5, 5):
@@ -35,8 +40,16 @@ for x in range(-5, 5):
 def game_tick():
     global a_click
     global a_time
+    
+    if(random.randint(0, 60)>58):
+        p_engine.spawnParticles(Vec2(player.pos.x, player.pos.y), 1)
+    
     player.step()
     p_engine.step()
+    enemy.step()
+    
+    p_engine.collide_c([enemy])
+    
     if(a_click):
         if(a_time == 0):
             a_click = False
@@ -52,6 +65,7 @@ def game_draw():
     surface.fill((255, 255, 255))
     
     player.render(surface)
+    enemy.render(surface)
     p_engine.render(surface)
     
 

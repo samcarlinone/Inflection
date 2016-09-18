@@ -14,9 +14,17 @@ class Particle_Engine:
             #self.sprite.setPos(particle.p)
             #self.sprite.draw(surface)
             pygame.draw.line(surface, (255, 0, 0), (particle.last.x, particle.last.y), (particle.p.x, particle.p.y))
-            particle.last.x = particle.p.x
-            particle.last.y = particle.p.y
-            
+            particle.last.add_i(particle.p).div_s(2)
+    
+    def collide_c(self, circle_list):
+        for circle in circle_list:
+            for part in self.particles:
+                if(part.p.dist_sq(circle.pos) < circle.radius):
+                    self.particles.remove(part)
+                
+                    if(circle.hit()):
+                        circle_list.remove(circle)
+    
     def spawnParticles(self, pos, num):
         for i in range(0, num):
             self.particles.append(Particle(pos.clone(), Vec2(1, 0), 1))

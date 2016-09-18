@@ -74,6 +74,9 @@ class Vec2:
     def dist(self, o):
         return math.sqrt((self.x-o.x)**2 + (self.y-o.y)**2)
     
+    def dist_sq(self, o):
+        return (self.x-o.x)**2 + (self.y-o.y)**2
+    
     def mag(self):
         return math.sqrt(self.x**2 + self.y**2)
     
