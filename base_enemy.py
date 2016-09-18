@@ -2,7 +2,7 @@ class BaseEnemy:
     def __init__(self, pos, sprite):
         self.sprite = sprite
         self.pos = pos
-        self.radius = 128**2
+        self.radius = 64**2
         
         self.sprite.setPos(self.pos)
         

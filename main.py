@@ -21,15 +21,15 @@ running   = 1
 
 # Game Code
 controller = Controller()
-player = Player(Vec2(32, 32), Sprite("Inflection.png"), controller)
+player = Player(Vec2(32, 32), Sprite("img/Inflection.png"), controller)
 
-p_engine = Particle_Engine(Sprite("Particle.png"))
+p_engine = Particle_Engine(Sprite("img/Particle.png"))
 
 a = p_engine.createAttractor(Vec2(40, 40), 100)
 a_click = False
 a_time  = 120
 
-enemy = BaseEnemy(Vec2(300, 300), Sprite("Placeholder_Circle.png"))
+enemy = BaseEnemy(Vec2(300, 300), Sprite("img/Placeholder_Circle.png"))
 
 
 for x in range(-5, 5):
