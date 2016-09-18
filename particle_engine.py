@@ -1,4 +1,5 @@
 import random
+import pygame
 from vec2 import Vec2
 
 class Particle_Engine:
@@ -10,8 +11,11 @@ class Particle_Engine:
      
     def render(self, surface):
         for particle in self.particles:
-            self.sprite.setPos(particle.p)
-            self.sprite.draw(surface)
+            #self.sprite.setPos(particle.p)
+            #self.sprite.draw(surface)
+            pygame.draw.line(surface, (255, 0, 0), (particle.last.x, particle.last.y), (particle.p.x, particle.p.y))
+            particle.last.x = particle.p.x
+            particle.last.y = particle.p.y
             
     def spawnParticles(self, pos, num):
         for i in range(0, num):
@@ -27,8 +31,8 @@ class Particle_Engine:
             part.t_force.x = 0
             part.t_force.y = 0
             
-            for force in self.attractors:
-                direction = part.p.sub(force.p)
+            for a in self.attractors:
+                direction = part.p.sub(a.p)
                 
                 dist = direction.mag()
                 
@@ -37,7 +41,10 @@ class Particle_Engine:
                 if(dist == 0):
                     dist = 0
                 else:
-                    dist = -force.power / dist**2
+                    if(a.mode == "real"):
+                        dist = -a.power / dist**2
+                    else:
+                        dist = -a.power
                     
                 if(dist < -1):
                     dist = -1
@@ -55,11 +62,13 @@ class Particle:
     def __init__(self, p, v, life):
         self.p = p
         self.v = v
+        self.last = p.clone()
         self.t_force = Vec2(0, 0)
         self.mass = 1
         self.lifetime = life
         
 class Attractor:
-    def __init__(self, p, power):
+    def __init__(self, p, power, mode="real"):
         self.p = p
         self.power = power
+        self.mode = mode

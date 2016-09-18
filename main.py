@@ -22,7 +22,10 @@ running   = 1
 controller = Controller()
 player = Player(Vec2(32, 32), Sprite("Inflection.png"), controller)
 p_engine = Particle_Engine(Sprite("Particle.png"))
-a = p_engine.createAttractor(Vec2(40, 40), 30)
+a = p_engine.createAttractor(Vec2(40, 40), 100)
+a_click = False
+a_time  = 120
+
 
 for x in range(-5, 5):
     for y in range(-5, 5):
@@ -30,10 +33,19 @@ for x in range(-5, 5):
 
 
 def game_tick():
+    global a_click
+    global a_time
     player.step()
     p_engine.step()
-    a.p.x = player.pos.x + 32
-    a.p.y = player.pos.y + 32
+    if(a_click):
+        if(a_time == 0):
+            a_click = False
+            a.power = 30
+            a.mode = "real"
+        a_time -= 1
+    else:
+        a.p.x = player.pos.x + 32
+        a.p.y = player.pos.y + 32
     # Nothing Yet
 
 def game_draw():
@@ -47,7 +59,7 @@ while running:
     event = pygame.event.poll()
     
     while event.type != pygame.NOEVENT:
-        print(event)
+        #print(event)
         
         if event.type == pygame.QUIT:
             running = 0
@@ -58,6 +70,15 @@ while running:
             
         if event.type == pygame.KEYUP:
             controller.keyUp(event)
+            
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            a_click = True
+            a_time = 120
+            
+            a.power = 100
+            a.mode = "grav"
+            a.p.x = event.pos[0]
+            a.p.y = event.pos[1]
             
         event = pygame.event.poll()
         

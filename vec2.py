@@ -5,6 +5,13 @@ class Vec2:
         self.x = x
         self.y = y
         
+    def __getitem__(self, index):
+        if(index == 0):
+            return self.x
+        if(index == 1):
+            return self.y
+        return None
+        
     def add(self, o):
         return Vec2(self.x + o.x, self.y + o.y)
     
