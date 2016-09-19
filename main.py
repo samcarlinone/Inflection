@@ -41,7 +41,7 @@ def game_tick():
     global a_click
     global a_time
     
-    if(random.randint(0, 60)>58):
+    if(random.randint(0, 60)>40):
         p_engine.spawnParticles(Vec2(player.pos.x, player.pos.y), 1)
     
     player.step()

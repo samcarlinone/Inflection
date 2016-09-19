@@ -4,7 +4,8 @@ class BaseEnemy:
         self.pos = pos
         self.radius = 64**2
         
-        self.sprite.setPos(self.pos)
+        self.sprite.setPos(self.pos.sub_s(64))
+        self.pos.add_s(64)
         
     def step(self):
         i = 1
@@ -15,7 +16,7 @@ class BaseEnemy:
         
     def hit(self):
         self.pos.x += 1
-        self.sprite.setPos(self.pos.add_s(64))
-        self.pos.sub_s(64)
+        self.sprite.setPos(self.pos.sub_s(64))
+        self.pos.add_s(64)
         
         return False
